@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sample-pod
+  annotations:
+    annotation1: vall
+    annotation2: '200'
+  labels:
+    label1: val1
+    label2: val2
+spec:
+  containers:
+    - name: nginx-container-1
+      image: nginx:1.17
+    - name: nginx-container-2
+      image: nginx:1.17
+      command: ['/bin/sleep']
+      args: ['3600']
+    - name: redis-container
+      image: redis:3.2
