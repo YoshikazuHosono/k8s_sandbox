@@ -6,3 +6,6 @@ down:
 
 clean:
 	minikube delete
+
+tunnel:
+	minikube tunnel
