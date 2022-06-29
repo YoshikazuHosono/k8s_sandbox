@@ -24,6 +24,7 @@ metadata:
 spec:
   type: NodePort
   externalTrafficPolicy: Local
+  ## TODO 一部Pod(対象Podと同じNode)からは効かない。なんでか調べる。
   ports:
     - name: 'http-port'
       protocol: 'TCP'

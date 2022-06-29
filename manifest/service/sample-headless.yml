@@ -1,0 +1,52 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sample-statefulset
+spec:
+  serviceName: sample-headless # term 3 (option)
+  replicas: 3
+  selector:
+    matchLabels:
+      app: sample-app
+  template:
+    metadata:
+      labels:
+        app: sample-app
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx:1.16
+          volumeMounts:
+            - name: www
+              mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+    - metadata:
+        name: www
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1G
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-headless # term 3 (option)
+spec:
+  type: ClusterIP # terms 1
+  clusterIP: None # terms 2
+  ports:
+    - name: 'http-port'
+      protocol: 'TCP'
+      port: 8080
+      targetPort: 80
+  selector:
+    app: sample-app
+---
+# kdbg dig sample-headless.default.svc.cluster.local
+# kdbg dig sample-statefulset-0.sample-headless.default.svc.cluster.local
+# kdbg dig sample-statefulset-1.sample-headless.default.svc.cluster.local
+# kdbg dig sample-statefulset-2.sample-headless.default.svc.cluster.local
+# kdbg cat /etc/resolv.conf
