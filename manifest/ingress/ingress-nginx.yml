@@ -1,0 +1,30 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sample-ingress-nginx
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  rules:
+    - host: hoge.com
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: sample-ingress-svc-1
+                port:
+                  number: 8888
+          - pathType: Prefix
+            path: /path2
+            backend:
+              service:
+                name: sample-ingress-svc-2
+                port:
+                  number: 8888
+  tls:
+    - hosts:
+        - hoge.com
+      secretName: testsecret-tls
