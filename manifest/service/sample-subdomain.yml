@@ -1,0 +1,26 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sample-subdomain-pod
+  labels:
+    app: sample-subdomain-pod-label
+spec:
+  hostname: sample-subdomain-pod-hostname # term 1
+  subdomain: sample-subdomain-svc # term 2
+  containers:
+    - name: nginx-container
+      image: nginx:1.17
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-subdomain-svc # term 2
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports: []
+  selector:
+    app: sample-subdomain-pod-label
+---
+# kdbg dig sample-subdomain-pod-hostname.sample-subdomain-svc.default.svc.cluster.local
