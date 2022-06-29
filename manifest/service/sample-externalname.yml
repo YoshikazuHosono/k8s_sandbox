@@ -5,6 +5,7 @@ metadata:
   name: sample-externalname-svc
 spec:
   type: ExternalName
+  # clusterIP: ""  # ClusterIPからapplyで切り替える際は、明示的に指定する必要がある
   externalName: 'hoge.hoge.com'
 ---
 # kdbg dig sample-externalname-svc.default.svc.cluster.local
